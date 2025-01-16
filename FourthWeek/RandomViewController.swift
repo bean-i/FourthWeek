@@ -148,25 +148,7 @@ class RandomViewController: UIViewController, ViewConfiguration {
     }
     
     @objc func userButtonTapped() {
-        print(#function)
-        let url = "https://randomuser.me/api/?results=10"
-        
-//        AF.request(url, method: .get).responseString { value in
-//            print(value)
-//        }
-        
-        // 서버에서 불러올 때는 전체를 다 담아야 함.
-        AF.request(url, method: .get).responseDecodable(of: User.self) { response in
-            switch response.result {
-            case .success(let value):
-                print("success")
-                self.nameLabel.text = value.results[0].name.first
-                
-            case .failure(let error):
-                print("error")
-                print(error)
-            }
-        }
+        NetworkManager.shared.randomUser()
     }
 
 }

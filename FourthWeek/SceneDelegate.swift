@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene) // 빈 유리판 넣어주기
         
-        let nav = UINavigationController(rootViewController: KakaoBookSearchViewController())
+        let nav = UINavigationController(rootViewController: BookViewController())
         
         window?.rootViewController = nav
         window?.makeKeyAndVisible()

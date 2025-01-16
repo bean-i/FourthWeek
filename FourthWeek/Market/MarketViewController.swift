@@ -5,8 +5,32 @@
 //  Created by Jack on 1/14/25.
 //
 
+/*
+ 
+ 서버에서 키를 바꾸면 앱이 터진다. => DecodingStrategy
+ - 옵셔널을 통한 해결
+ - CodingKey: 서버 - 식판
+ 
+ */
+
 import UIKit
 import SnapKit
+import Alamofire
+
+struct Market: Decodable {
+    let market: String
+    let name: String?
+    let korean: String?
+    let english: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case market
+        case name
+        case korean = "korean_name"
+        case english = "english_name"
+    }
+    
+}
 
 class MarketViewController: UIViewController {
  
@@ -19,7 +43,24 @@ class MarketViewController: UIViewController {
 
         configureView()
         configureTableView()
-
+        callRequest()
+    }
+    
+    func callRequest() {
+        let url = "https://api.upbit.com/v1/market/all"
+        
+        AF.request(url, method: .get)
+            .validate(statusCode: 200..<500)
+            .responseDecodable(of: [Market].self) { response in
+            
+                switch response.result {
+                case .success(let value):
+                    print("Success")
+                    dump(value)
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
     
     func configureTableView() {
