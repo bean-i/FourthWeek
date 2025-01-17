@@ -13,14 +13,15 @@ class NetworkManager {
     
     private init() { }
     
-    func randomUser() {
+    func randomUser(completionHandler: @escaping (String) -> Void) {
         let url = "https://randomuser.me/api/?results=10"
-    
+        
         AF.request(url, method: .get).responseDecodable(of: User.self) { response in
             switch response.result {
             case .success(let value):
-                print("success")
-//                self.nameLabel.text = value.results[0].name.first
+                print("success", value.results[0].name)
+                let result = value.results[0].name.last
+                completionHandler(result)
                 
             case .failure(let error):
                 print("error")

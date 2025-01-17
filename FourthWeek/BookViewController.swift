@@ -23,8 +23,9 @@ class BookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UserDefaultsManager.shared.age = 50
-        
+        NetworkManager.shared.randomUser { name in
+            self.navigationItem.title = name
+        }
         
     }
 }
